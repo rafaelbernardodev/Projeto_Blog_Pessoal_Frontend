@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { buscar } from "../../../services/Service";
-import CardPostagem from "../cardpostagem/CardPostagem";
 import type { Postagem } from "../../../models/Postagem";
+import { buscar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import CardPostagem from "../cardpostagem/CardPostagem";
 
 function ListaPostagens() {
 
@@ -19,7 +20,7 @@ function ListaPostagens() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            ToastAlerta('Você precisa estar logado!', 'info')
             navigate('/')
         }
     }, [token])
@@ -67,11 +68,14 @@ function ListaPostagens() {
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 
-                                    lg:grid-cols-3 gap-8">
+                                    lg:grid-cols-4 px-4 gap-8">
                             {
-                                postagens.map((postagem) => (
+                                postagens.map((postagem) => {
+                                    console.log("Postagem:", postagem);
+
+                                    return (
                                     <CardPostagem key={postagem.id} postagem={postagem}/>
-                                ))
+                                )})
                             }
                     </div>
                 </div>
